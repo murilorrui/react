@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
-import SpotifyWebApi from 'spotify-web-api-js';
+import React, { Component } from 'react'
+import SpotifyWebApi from 'spotify-web-api-js'
+
+import { getAndStoreToken } from 'services/spotify'
 
 class Login extends Component {
-  spotifyApi = new SpotifyWebApi();
+  spotifyApi = new SpotifyWebApi()
 
-  constructor(){
-    super();
-    const params = this.getHashParams();
-    const token = params.access_token;
+  constructor() {
+    super()
+    const params = this.getHashParams()
+    const token = params.get('access_token')
     if (token) {
-      this.spotifyApi.setAccessToken(token);
+      this.spotifyApi.setAccessToken(token)
     }
     this.state = {
       loggedIn: token ? true : false,
@@ -17,24 +19,21 @@ class Login extends Component {
     }
   }
 
+  handler() {
+    const params = this.getHashParams()
+    getAndStoreToken(params.get('code'))
+  }
+
   getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
-    e = r.exec(q)
-    while (e) {
-       hashParams[e[1]] = decodeURIComponent(e[2]);
-       e = r.exec(q);
-    }
-    return hashParams;
+    return new URLSearchParams(window.location.search)
   }
 
   render() {
     return (
       <div className="App">
-        <a href='http://localhost:8888'> Login to Spotify </a>
+        <button onClick={this.handler.bind(this)}>Clique aqui</button>
       </div>
-    );
+    )
   }
 }
-export default Login;
+export default Login

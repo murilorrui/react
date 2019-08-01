@@ -1,116 +1,118 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import SpotifyWebApi from 'spotify-web-api-js';
-import Grid from '@material-ui/core/Grid';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Login from '../../components/login/Login';
-import './Home.css';
+import React, { Component } from 'react'
+import SpotifyWebApi from 'spotify-web-api-js'
+import { connect } from 'react-redux'
 
-import Icon from '@material-ui/core/Icon';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
+import './Home.css'
+
+import Login from 'components/login/Login'
+
+import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
+import Grid from '@material-ui/core/Grid'
+import Icon from '@material-ui/core/Icon'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton'
+
+import { authorizeUser } from 'services/spotify'
+
+import { setMe } from 'store/actionCreators/me'
 
 class Home extends Component {
-  spotifyApi = new SpotifyWebApi();
-  me = 'teste';
+  spotifyApi = new SpotifyWebApi()
+  me = 'teste'
 
-  constructor(){
-    super();
-    const params = this.getHashParams();
-    const token = params.access_token;
+  constructor() {
+    super()
+    const params = this.getHashParams()
+    const token = params.access_token
     if (token) {
-      this.spotifyApi.setAccessToken(token);
+      this.spotifyApi.setAccessToken(token)
     }
     this.state = {
       loggedIn: token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' },
       me: '',
-      playlists: [],
+      playlists: []
     }
   }
 
   getHashParams() {
-    var hashParams = {};
-    var e, r = /([^&;=]+)=?([^&;]*)/g,
-        q = window.location.hash.substring(1);
+    var hashParams = {}
+    var e,
+      r = /([^&;=]+)=?([^&;]*)/g,
+      q = window.location.hash.substring(1)
     e = r.exec(q)
     while (e) {
-       hashParams[e[1]] = decodeURIComponent(e[2]);
-       e = r.exec(q);
+      hashParams[e[1]] = decodeURIComponent(e[2])
+      e = r.exec(q)
     }
-    return hashParams;
+    return hashParams
   }
 
-  getMe(){
-    this.spotifyApi.getMe()
-      .then((response) => {
-        this.setState({
-          me: {
-            display_name: response.display_name,
-            email: response.email,
-            image: response.images[0].url,
-            country: response.country,
-            followers: response.followers.total,
-            id: response.id,
-          }
-        });
+  getMe() {
+    this.spotifyApi.getMe().then(response => {
+      this.dispatchSetMe({ teste: 'teste' })
+      this.setState({
+        me: {
+          display_name: response.display_name,
+          email: response.email,
+          image: response.images[0].url,
+          country: response.country,
+          followers: response.followers.total,
+          id: response.id
+        }
       })
+    })
   }
 
   getMyPlaylists() {
-    this.spotifyApi.getUserPlaylists(this.state.me.id)
-      .then((response) => {
-        this.setState({
-          playlists: response.items,
-        })
-      });
+    this.spotifyApi.getUserPlaylists(this.state.me.id).then(response => {
+      this.setState({
+        playlists: response.items
+      })
+    })
   }
 
   componentDidMount() {
-    this.getMe();
+    this.props.dispatchSetMe({ teste: 'teste' })
+    this.loggedIn ? this.getMe() : authorizeUser()
   }
 
   render() {
     return (
       <div className="App">
-        { !this.state.loggedIn &&
-            <Login/>
-        }
-        { this.state.loggedIn &&
+        {!this.state.loggedIn && <Login />}
+        {this.state.loggedIn && (
           <Grid container alignItems="center">
             <Grid className="home__img-container" item xs={4}>
-              <img className="home__img" src={this.state.me.image}></img>
+              <img alt="" className="home__img" src={this.state.me.image}></img>
             </Grid>
             <Grid item xs={8} className="home__infos">
-              <p>
-                Usuário: { this.state.me.display_name }
-              </p>
-              <p>
-                País: { this.state.me.country }
-              </p>
-              <p>
-                Seguidores: { this.state.me.followers }
-              </p>
-              <p>
-                E-mail: { this.state.me.email }
-              </p>
+              <p>Usuário: {this.state.me.display_name}</p>
+              <p>País: {this.state.me.country}</p>
+              <p>Seguidores: {this.state.me.followers}</p>
+              <p>E-mail: {this.state.me.email}</p>
             </Grid>
             <Grid item xs={12}>
               <ButtonGroup className="home__button-group" fullWidth aria-label="full width outlined button group">
-                <Button className="home__buttons" onClick={() => this.getMyPlaylists()}>Criar Playlist</Button>
+                <Button className="home__buttons" onClick={() => this.getMyPlaylists()}>
+                  Criar Playlist
+                </Button>
               </ButtonGroup>
               <ButtonGroup className="home__button-group" fullWidth aria-label="full width outlined button group">
-                <Button className="home__buttons" onClick={() => this.getMyPlaylists()}>Ver playlists</Button>
+                <Button className="home__buttons" onClick={() => this.getMyPlaylists()}>
+                  Ver playlists
+                </Button>
               </ButtonGroup>
             </Grid>
           </Grid>
-        }
-        { this.state.playlists.length > 0 &&
+        )}
+        {this.state.playlists.length > 0 && (
           <Grid item xs={12} className="home__list">
             <Paper className="home__card">
               <Table>
@@ -141,9 +143,19 @@ class Home extends Component {
               </Table>
             </Paper>
           </Grid>
-        }
+        )}
       </div>
-    );
+    )
   }
 }
-export default Home;
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSetMe: me => dispatch(setMe(me))
+})
+
+const enhance = connect(
+  null,
+  mapDispatchToProps
+)
+
+export default enhance(Home)

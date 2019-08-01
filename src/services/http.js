@@ -1,10 +1,3 @@
-import axios from 'axios';
+import { create } from 'apisauce'
 
-export default class HttpBuilder {
-  constructor() {
-    const instance = axios.create({
-      baseURL: 'https://api.spotify.com/v1',
-    });
-    return instance;
-  }
-}
+export default create({})

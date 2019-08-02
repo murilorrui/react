@@ -10,7 +10,6 @@ import { setMe } from 'store/actionCreators/me'
 
 class Home extends Component {
   spotifyApi = new SpotifyWebApi()
-  me = 'teste'
 
   constructor() {
     super()

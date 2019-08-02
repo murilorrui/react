@@ -78,13 +78,8 @@ class Playlists extends Component {
             <p>E-mail: {this.state.me.email}</p>
           </Grid>
           <Grid item xs={12}>
-            <ButtonGroup className="playlists__button-group" fullWidth aria-label="full width outlined button group">
-              <Button className="playlists__buttons" onClick={() => this.getMyPlaylists()}>
-                Criar Playlist
-              </Button>
-            </ButtonGroup>
-            <ButtonGroup className="playlists__button-group" fullWidth aria-label="full width outlined button group">
-              <Button className="playlists__buttons" onClick={() => this.getMyPlaylists()}>
+            <ButtonGroup className="playlists__button-group" fullWidth aria-label="full width button group">
+              <Button variant="contained" className="playlists__buttons" onClick={() => this.getMyPlaylists()}>
                 Ver playlists
               </Button>
             </ButtonGroup>
@@ -112,7 +107,7 @@ class Playlists extends Component {
                       </TableCell>
                       <TableCell component="th" scope="row">
                         <IconButton onClick={() => this.goToPlaylist(row.id)}>
-                          <Icon className="playlists__icons">edit_icon</Icon>
+                          <Icon className="playlists__icons">visibility</Icon>
                         </IconButton>
                       </TableCell>
                     </TableRow>

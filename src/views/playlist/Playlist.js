@@ -33,9 +33,7 @@ class Playlist extends Component {
   }
 
   getPlaylist() {
-    console.log(this.props.match.params.id);
     this.spotifyApi.getPlaylist(this.props.match.params.id).then(response => {
-      console.log(response);
       this.setState({
         playlist: response.name,
         owner: response.owner.display_name,
@@ -49,22 +47,19 @@ class Playlist extends Component {
    this.getPlaylist();
   }
 
-  deleteMusic(track) {
-    this.spotifyApi.removeTracksFromPlaylistInPositions(this.props.match.params.id, track.track_number, track.id).then(() => {
-      console.log('alo');
-    });
-  }
-
   render() {
     return (
       <div>
+        <Grid item xs={12} className="playlists__infos">
+          <p>{this.state.playlist}</p>
+          <p>owner: {this.state.owner}</p>
+        </Grid>
         <Grid item xs={12} className="playlists__list">
           <Paper className="playlists__card">
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Nome</TableCell>
-                  <TableCell>Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -72,14 +67,6 @@ class Playlist extends Component {
                   <TableRow key={row.track.name}>
                     <TableCell component="th" scope="row">
                       {row.track.name}
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                      <IconButton>
-                        <Icon className="playlists__icons">edit_icon</Icon>
-                      </IconButton>
-                      <IconButton onClick={() => this.deleteMusic(row.track)}>
-                        <Icon className="playlists__icons">delete_icon</Icon>
-                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}

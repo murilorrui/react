@@ -14,7 +14,7 @@ class Login extends Component {
           <p>REACT Teste</p>
           <p>Desenvolvido por</p>
           <p>Murilo Henrique Ribeiro Rui</p>
-          <Button variant="outlined" className="login__button" onClick={authorizeUser}>
+          <Button variant="contained"  className="login__button" onClick={authorizeUser}>
             Realize seu login pelo Spotify!
           </Button>
         </Paper>

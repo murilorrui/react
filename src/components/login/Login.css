@@ -1,3 +1,27 @@
 .login {
   text-align: center;
+  border: 0;
+  display: block;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  color: #fff !important;
+  background: transparent !important;
+  border: 1px solid rgba(247, 245, 245, 0.34) !important;
+  height: 300px;
+  width: 500px;
+}
+
+.login__button {
+  border: 1px solid rgba(247, 245, 245, 0.34) !important;
+  color: #fff !important;
 }

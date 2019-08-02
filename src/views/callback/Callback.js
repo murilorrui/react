@@ -3,6 +3,9 @@ import SpotifyWebApi from 'spotify-web-api-js'
 
 import { getAndStoreToken } from 'services/spotify'
 
+import './Callback.css'
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 class Login extends Component {
   spotifyApi = new SpotifyWebApi()
 
@@ -13,26 +16,26 @@ class Login extends Component {
     if (token) {
       this.spotifyApi.setAccessToken(token)
     }
-    this.state = {
-      loggedIn: token ? true : false,
-      nowPlaying: { name: 'Not Checked', albumArt: '' }
-    }
   }
 
   handler() {
     const params = this.getHashParams()
-    getAndStoreToken(params.get('code'))
+    getAndStoreToken(params.get('code')).then(() => {
+      this.props.history.push('/playlists')
+    })
   }
 
   getHashParams() {
     return new URLSearchParams(window.location.search)
   }
 
+  componentDidMount() {
+    this.handler();
+  }
+
   render() {
     return (
-      <div className="App">
-        <button onClick={this.handler.bind(this)}>Clique aqui</button>
-      </div>
+      <CircularProgress className="callback__loader" size="100px"/>
     )
   }
 }

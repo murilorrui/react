@@ -1,0 +1,39 @@
+.playlists__img {
+  border-radius: 100%;
+  width: 100%;
+}
+
+.playlists__img-container {
+  padding: 16px
+}
+
+.playlists__infos {
+  color: #fff;
+}
+
+.playlists__buttons {
+  color: #fff !important;
+  border: 1px solid rgba(247, 245, 245, 0.34) !important;
+}
+
+.playlists__button-group {
+  margin: 16px 0px;
+}
+
+.playlists__card {
+  background: transparent !important;
+  border: 1px solid rgba(247, 245, 245, 0.34) !important;
+}
+
+.playlists__list {
+  margin-top: 16px !important;
+}
+
+.MuiTableCell-root  {
+  color: #fff !important;
+  border-bottom: 1px solid rgba(247, 245, 245, 0.34) !important;
+}
+
+.playlists__icons {
+  color: #fff !important;
+}

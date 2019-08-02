@@ -57,29 +57,3 @@ export const authorizeUser = () => {
 
   window.location.href = uri + queryString.stringify(queryParams)
 }
-
-export default class SpotifyService {
-  searchAlbums(title) {
-    const options = this.getOptions()
-    return this.http.get(`/search?q=${title}&type=album`, options).then(() => {
-      console.log('asd')
-    })
-  }
-
-  loadAlbum(id) {
-    const options = this.getOptions()
-    return this.http.get(`/albums/${id}`, options)
-  }
-
-  getOptions() {
-    console.log(this.accessToken)
-    console.log(this.tokenType)
-
-    // const headers = new HttpHeaders({
-    //   Authorization: `${this.tokenType} ${this.accessToken}`
-    // });
-    // const options = { headers }
-
-    // return options;
-  }
-}

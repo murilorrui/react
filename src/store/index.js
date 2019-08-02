@@ -1,10 +1,8 @@
-import { createStore } from 'redux';
-import { Reducers } from './reducers';
-import { SET_ME } from './actionTypes';
+import { createStore } from 'redux'
+import reducers from 'store/reducers'
 
-export const setMe = value => ({
-  type: SET_ME,
-  me: value
-});
+const enhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
-export const Store = createStore(Reducers);
+const store = createStore(reducers, enhancers)
+
+export default store

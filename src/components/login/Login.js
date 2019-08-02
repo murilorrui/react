@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import './Login.css';
+import React, { Component } from 'react'
+import Button from '@material-ui/core/Button'
+import './Login.css'
+
+import { authorizeUser } from 'services/spotify'
+
+import Paper from '@material-ui/core/Paper'
 
 class Login extends Component {
   render() {
     return (
       <div className="login">
-        <div>
-          REACT Teste
-        </div>
-        <div>
-          Desenvolvido por
-        </div>
-        <div>
-          Murilo Henrique Ribeiro Rui
-        </div>
-        <Button href="/login" variant="contained" color="primary">
-          Login
-        </Button>
+        <Paper className="login__card">
+          <p>REACT Teste</p>
+          <p>Desenvolvido por</p>
+          <p>Murilo Henrique Ribeiro Rui</p>
+          <Button variant="contained"  className="login__button" onClick={authorizeUser}>
+            Realize seu login pelo Spotify!
+          </Button>
+        </Paper>
       </div>
-    );
+    )
   }
 }
-export default Login;
+export default Login
